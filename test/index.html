@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PasteDrops Test Page</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f5f5f5; padding: 40px; color: #333; }
+    h1 { margin-bottom: 8px; }
+    .description { color: #666; margin-bottom: 32px; }
+    .form-section { background: #fff; border-radius: 12px; padding: 24px; max-width: 480px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .form-group { margin-bottom: 16px; }
+    .form-group:last-child { margin-bottom: 0; }
+    label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px; }
+    .hint { font-size: 12px; color: #999; margin-bottom: 4px; }
+    input, textarea, select {
+      width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;
+      font-size: 14px; font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #6366f1; }
+    textarea { resize: vertical; min-height: 80px; }
+    pre {
+      background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px;
+      font-size: 13px; overflow-x: auto; margin-top: 32px; max-width: 480px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <h1>PasteDrops Test Page</h1>
+  <p class="description">Copy the JSON below, then press <kbd>Ctrl+Shift+V</kbd> or click the PasteDrops icon.</p>
+
+  <div class="form-section">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <div class="hint">selector: <code>#username</code></div>
+      <input type="text" id="username" placeholder="Enter username">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <div class="hint">selector: <code>[name='email']</code></div>
+      <input type="email" name="email" placeholder="Enter email">
+    </div>
+
+    <div class="form-group">
+      <label>Role</label>
+      <div class="hint">selector: <code>.role-select select</code></div>
+      <div class="role-select">
+        <select>
+          <option value="">-- Select --</option>
+          <option value="admin">Admin</option>
+          <option value="editor">Editor</option>
+          <option value="viewer">Viewer</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Bio</label>
+      <div class="hint">selector: <code>[data-field='bio']</code></div>
+      <textarea data-field="bio" placeholder="Enter bio"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Website</label>
+      <div class="hint">selector: <code>.form-section .form-group:last-child input</code></div>
+      <input type="url" placeholder="Enter website URL">
+    </div>
+  </div>
+
+  <pre>{
+  "fields": [
+    { "target": "#username", "value": "yukpiz" },
+    { "target": "[name='email']", "value": "yukpiz@example.com" },
+    { "target": ".role-select select", "value": "editor" },
+    { "target": "[data-field='bio']", "value": "Hello from PasteDrops!" },
+    { "target": ".form-section .form-group:last-child input", "value": "https://github.com/yukpiz" }
+  ]
+}</pre>
+</body>
+</html>
