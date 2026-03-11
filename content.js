@@ -53,7 +53,10 @@ async function executePaste() {
       continue;
     }
 
-    el.value = field.value;
+    setNativeValue(el, field.value);
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+    el.dispatchEvent(new Event("blur", { bubbles: true }));
     filled++;
   }
 
@@ -64,6 +67,21 @@ async function executePaste() {
     );
   } else {
     showNotification("Filled " + filled + " fields", "success");
+  }
+}
+
+function setNativeValue(el, value) {
+  // React overrides the value setter on input/textarea elements.
+  // Using the native HTMLInput/TextArea prototype setter ensures
+  // React's internal state gets updated properly.
+  var prototype = el instanceof HTMLTextAreaElement
+    ? HTMLTextAreaElement.prototype
+    : HTMLInputElement.prototype;
+  var nativeSetter = Object.getOwnPropertyDescriptor(prototype, "value");
+  if (nativeSetter && nativeSetter.set) {
+    nativeSetter.set.call(el, value);
+  } else {
+    el.value = value;
   }
 }
 
