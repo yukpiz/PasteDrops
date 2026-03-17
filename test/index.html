@@ -18,6 +18,9 @@
       width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;
       font-size: 14px; font-family: inherit;
     }
+    input[type="radio"] { width: auto; margin-right: 4px; }
+    .radio-group { display: flex; gap: 16px; align-items: center; }
+    .radio-group label { display: inline-flex; align-items: center; font-weight: normal; margin-bottom: 0; }
     input:focus, textarea:focus, select:focus { outline: none; border-color: #6366f1; }
     textarea { resize: vertical; min-height: 80px; }
     pre {
@@ -58,6 +61,16 @@
     </div>
 
     <div class="form-group">
+      <label>Notify</label>
+      <div class="hint">selector: <code>#notify-email</code></div>
+      <div class="radio-group">
+        <label><input type="radio" name="notify" id="notify-email" value="email"> Email</label>
+        <label><input type="radio" name="notify" id="notify-slack" value="slack"> Slack</label>
+        <label><input type="radio" name="notify" id="notify-none" value="none"> None</label>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label>Bio</label>
       <div class="hint">selector: <code>[data-field='bio']</code></div>
       <textarea data-field="bio" placeholder="Enter bio"></textarea>
@@ -75,6 +88,7 @@
     { "target": "#username", "value": "yukpiz" },
     { "target": "[name='email']", "value": "yukpiz@example.com" },
     { "target": ".role-select select", "value": "editor" },
+    { "target": "#notify-email", "checked": true },
     { "target": "[data-field='bio']", "value": "Hello from PasteDrops!" },
     { "target": ".form-section .form-group:last-child input", "value": "https://github.com/yukpiz" }
   ]

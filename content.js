@@ -35,8 +35,10 @@ async function executePaste() {
   let errors = [];
 
   for (const field of data.fields) {
-    if (!field.target || field.value === undefined) {
-      errors.push('Invalid field: missing "target" or "value"');
+    var hasValue = field.value !== undefined;
+    var hasChecked = field.checked === true;
+    if (!field.target || (!hasValue && !hasChecked)) {
+      errors.push('Invalid field: missing "target" or "value"/"checked"');
       continue;
     }
 
@@ -53,10 +55,16 @@ async function executePaste() {
       continue;
     }
 
-    setNativeValue(el, field.value);
-    el.dispatchEvent(new Event("input", { bubbles: true }));
-    el.dispatchEvent(new Event("change", { bubbles: true }));
-    el.dispatchEvent(new Event("blur", { bubbles: true }));
+    if (hasChecked) {
+      el.checked = true;
+      el.dispatchEvent(new Event("click", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    } else {
+      setNativeValue(el, field.value);
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+      el.dispatchEvent(new Event("blur", { bubbles: true }));
+    }
     filled++;
   }
 
@@ -72,11 +80,16 @@ async function executePaste() {
 
 function setNativeValue(el, value) {
   // React overrides the value setter on input/textarea elements.
-  // Using the native HTMLInput/TextArea prototype setter ensures
-  // React's internal state gets updated properly.
-  var prototype = el instanceof HTMLTextAreaElement
-    ? HTMLTextAreaElement.prototype
-    : HTMLInputElement.prototype;
+  // Using the native prototype setter ensures React's internal state
+  // gets updated properly.
+  var prototype;
+  if (el instanceof HTMLTextAreaElement) {
+    prototype = HTMLTextAreaElement.prototype;
+  } else if (el instanceof HTMLSelectElement) {
+    prototype = HTMLSelectElement.prototype;
+  } else {
+    prototype = HTMLInputElement.prototype;
+  }
   var nativeSetter = Object.getOwnPropertyDescriptor(prototype, "value");
   if (nativeSetter && nativeSetter.set) {
     nativeSetter.set.call(el, value);

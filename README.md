@@ -18,7 +18,8 @@ Paste JSON from clipboard to auto-fill form fields using CSS selectors.
   "fields": [
     { "target": "#username", "value": "yukpiz" },
     { "target": "[name='email']", "value": "test@example.com" },
-    { "target": ".form-group > input", "value": "hello" }
+    { "target": ".form-group > input", "value": "hello" },
+    { "target": "#notify-email", "checked": true }
   ]
 }
 ```
@@ -35,7 +36,8 @@ Paste JSON from clipboard to auto-fill form fields using CSS selectors.
 |---|---|
 | `fields` | Array of field definitions |
 | `fields[].target` | CSS selector to find the input element |
-| `fields[].value` | Value to set |
+| `fields[].value` | Value to set (for text inputs, textareas, selects) |
+| `fields[].checked` | Set to `true` to check radio buttons or checkboxes |
 
 ### Selector Examples
 
